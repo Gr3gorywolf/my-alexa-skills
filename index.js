@@ -16,7 +16,7 @@ function getResObject(outputSpeech) {
                 "type": "SSML",
                 "ssml": `<speak>${outputSpeech}</speak>`,
             },
-            "shouldEndSession": false
+            "shouldEndSession": true
         }
     }
 }
