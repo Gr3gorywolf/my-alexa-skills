@@ -35,7 +35,7 @@ app.post("/crackwatch", (req, res) => {
             }
         }).catch((err) => {
             speech.say("Error al obtener los ultimos juegos crackeados");
-        }).finally(() => {
+        }).then(() => {
             res.json(getResObject(speech.ssml(true)));
         })
 });
