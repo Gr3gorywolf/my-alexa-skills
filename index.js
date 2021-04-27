@@ -5,6 +5,8 @@ const Speech = require("ssml-builder");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(bodyParser.text());
+var temperature ="0";
 function getResObject(outputSpeech) {
     return {
         "version": "1.0",
@@ -21,6 +23,16 @@ function getResObject(outputSpeech) {
     }
 }
 
+//data setting routes
+app.post("/set-temperature",(req,res)=>{
+    var temp = req.body;
+    console.log(temp);
+    temperature = temp;
+    res.sendStatus(200);
+})
+
+
+//alexa skills routes
 app.post("/crackwatch", (req, res) => {
     console.log(req.body);
     var speech = new Speech();
@@ -39,6 +51,15 @@ app.post("/crackwatch", (req, res) => {
             res.json(getResObject(speech.ssml(true)));
         })
 });
+
+app.post("/temperature",(req,res)=>{
+    var speech = new Speech();
+    speech.say(`La temperatura del cuarto es de: ${temperature} grados celcius`)
+    .pause("300ms");
+    res.json(getResObject(speech.ssml(true)));
+})
+
+
 
 app.listen(9654, () => {
     console.log("listening on port 9654");
